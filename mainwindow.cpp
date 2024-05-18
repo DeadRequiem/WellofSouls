@@ -4,6 +4,19 @@
 #include <QDir>
 #include <QMetaObject>
 
+enum ButtonPositions {
+    TenPercent = 10,
+    FifteenPercent = 15,
+    TwentyPercent = 20,
+    TwentyFivePercent = 25,
+    ThirtyPercent = 30,
+    ThirtyFivePercent = 35,
+    FourtyPercent = 40,
+    FiftyPercent = 50,
+    SixtyPercent = 60,
+    SeventyPercent = 70
+};
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -41,38 +54,38 @@ void MainWindow::setupUI()
     }
 
     // Create and style buttons
-    QPushButton* button1 = nullptr;
-    QPushButton* button2 = nullptr;
-    QPushButton* button3 = nullptr;
-    QPushButton* button4 = nullptr;
-    QPushButton* button5 = nullptr;
-    QPushButton* button6 = nullptr;
+    QPushButton* CheckforWorldButton = nullptr;
+    QPushButton* PlayGameButton = nullptr;
+    QPushButton* PurchaseGoldenSoulButton = nullptr;
+    QPushButton* OpenHelpFileButton = nullptr;
+    QPushButton* VisitSynRealPageButton = nullptr;
+    QPushButton* ExitGameButton = nullptr;
 
-    setupButton(button1, "Check On-Line for New Worlds");
-    setupButton(button2, "Play now!");
-    setupButton(button3, "Change Purchase Message");
-    setupButton(button4, "Read the attractive help file");
-    setupButton(button5, "Visit synthetic-reality.com");
-    setupButton(button6, "Depart this realm");
+    setupButton(CheckforWorldButton, "Check On-Line for New Worlds");
+    setupButton(PlayGameButton, "Play now!");
+    setupButton(PurchaseGoldenSoulButton, "Change Purchase Message");
+    setupButton(OpenHelpFileButton, "Read the attractive help file");
+    setupButton(VisitSynRealPageButton, "Visit synthetic-reality.com");
+    setupButton(ExitGameButton, "Depart this realm");
 
     // Add buttons to the scene and connect signals
-    buttonProxy1 = scene->addWidget(button1);
-    connectButtonClickedSignal(button1, &MainWindow::onButton1Clicked);
+    buttonProxy1 = scene->addWidget(CheckforWorldButton);
+    connectButtonClickedSignal(CheckforWorldButton, &MainWindow::onButton1Clicked);
 
-    buttonProxy2 = scene->addWidget(button2);
-    connectButtonClickedSignal(button2, &MainWindow::onButton2Clicked);
+    buttonProxy2 = scene->addWidget(PlayGameButton);
+    connectButtonClickedSignal(PlayGameButton, &MainWindow::onButton2Clicked);
 
-    buttonProxy3 = scene->addWidget(button3);
-    connectButtonClickedSignal(button3, &MainWindow::onButton3Clicked);
+    buttonProxy3 = scene->addWidget(PurchaseGoldenSoulButton);
+    connectButtonClickedSignal(PurchaseGoldenSoulButton, &MainWindow::onButton3Clicked);
 
-    buttonProxy4 = scene->addWidget(button4);
-    connectButtonClickedSignal(button4, &MainWindow::onButton4Clicked);
+    buttonProxy4 = scene->addWidget(OpenHelpFileButton);
+    connectButtonClickedSignal(OpenHelpFileButton, &MainWindow::onButton4Clicked);
 
-    buttonProxy5 = scene->addWidget(button5);
-    connectButtonClickedSignal(button5, &MainWindow::onButton5Clicked);
+    buttonProxy5 = scene->addWidget(VisitSynRealPageButton);
+    connectButtonClickedSignal(VisitSynRealPageButton, &MainWindow::onButton5Clicked);
 
-    buttonProxy6 = scene->addWidget(button6);
-    connectButtonClickedSignal(button6, &MainWindow::onButton6Clicked);
+    buttonProxy6 = scene->addWidget(ExitGameButton);
+    connectButtonClickedSignal(ExitGameButton, &MainWindow::onButton6Clicked);
 
     updateButtonPosition(); // Initial positioning of buttons
 }
@@ -101,35 +114,15 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::updateButtonPosition()
 {
-    // Calculate new button positions based on the window size
     int windowWidth = view->width();
     int windowHeight = view->height();
 
-    // Values to set button position relative to screen size
-    int button1X = windowWidth * 0.1; // 10% from the left
-    int button1Y = windowHeight * 0.2; // 20% from the top
-
-    int button2X = windowWidth * 0.15; // 15% from the left
-    int button2Y = windowHeight * 0.3; // 30% from the top
-
-    int button3X = windowWidth * 0.2; // 20% from the left
-    int button3Y = windowHeight * 0.4; // 40% from the top
-
-    int button4X = windowWidth * 0.25; // 25% from the left
-    int button4Y = windowHeight * 0.5; // 50% from the top
-
-    int button5X = windowWidth * 0.3; // 30% from the left
-    int button5Y = windowHeight * 0.6; // 60% from the top
-
-    int button6X = windowWidth * 0.35; // 35% from the left
-    int button6Y = windowHeight * 0.7; // 70% from the top
-
-    buttonProxy1->setPos(button1X, button1Y);
-    buttonProxy2->setPos(button2X, button2Y);
-    buttonProxy3->setPos(button3X, button3Y);
-    buttonProxy4->setPos(button4X, button4Y);
-    buttonProxy5->setPos(button5X, button5Y);
-    buttonProxy6->setPos(button6X, button6Y);
+    buttonProxy1->setPos(TenPercent * windowWidth / 100, TwentyPercent * windowHeight / 100);
+    buttonProxy2->setPos(FifteenPercent * windowWidth / 100, ThirtyPercent * windowHeight / 100);
+    buttonProxy3->setPos(TwentyPercent * windowWidth / 100, FourtyPercent * windowHeight / 100);
+    buttonProxy4->setPos(TwentyFivePercent * windowWidth / 100, FiftyPercent * windowHeight / 100);
+    buttonProxy5->setPos(ThirtyPercent * windowWidth / 100, SixtyPercent * windowHeight / 100);
+    buttonProxy6->setPos(ThirtyFivePercent * windowWidth / 100, SeventyPercent * windowHeight / 100);
 }
 
 void MainWindow::applyCommonStyle(QPushButton* button)
@@ -150,30 +143,30 @@ void MainWindow::connectButtonClickedSignal(QPushButton* button, void (MainWindo
 
 void MainWindow::onButton1Clicked()
 {
-    qDebug() << "Button 1 clicked!";
+    qDebug() << "Check for World Button clicked!";
 }
 
 void MainWindow::onButton2Clicked()
 {
-    qDebug() << "Button 2 clicked!";
+    qDebug() << "Play Game Button clicked!";
 }
 
 void MainWindow::onButton3Clicked()
 {
-    qDebug() << "Button 3 clicked!";
+    qDebug() << "Purchase Golden Soul Button clicked!";
 }
 
 void MainWindow::onButton4Clicked()
 {
-    qDebug() << "Button 4 clicked!";
+    qDebug() << "Open Help File Button clicked!";
 }
 
 void MainWindow::onButton5Clicked()
 {
-    qDebug() << "Button 5 clicked!";
+    qDebug() << "Visit SynReal Page Button clicked!";
 }
 
 void MainWindow::onButton6Clicked()
 {
-    qDebug() << "Button 6 clicked!";
+    qDebug() << "Exit Game Button clicked!";
 }
