@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1041</width>
+    <height>612</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1039</width>
+     <height>593</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1039</width>
+     <height>593</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1041</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Light">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Midlight">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="BrightText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Light">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Midlight">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Text">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="BrightText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="ButtonText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Light">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Midlight">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="BrightText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <widget class="QMenu" name="menuSomething">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionWords"/>
+    <addaction name="separator"/>
+    <addaction name="actionSend_Skins_When_Asked"/>
+    <addaction name="actionAsk_for_new_skins"/>
+    <addaction name="actionAvoid_modified_quest_files"/>
+    <addaction name="separator"/>
+    <addaction name="actionCheck_on_line_for_new_worlds"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuSound">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Sound</string>
+    </property>
+    <addaction name="actionDisable_sound_effects"/>
+    <addaction name="actionDisable_Music"/>
+    <addaction name="actionDisable_Enviromental_Sounds"/>
+    <addaction name="separator"/>
+    <addaction name="actionDisable_All_Sounds"/>
+    <addaction name="actionVolume_Controls"/>
+   </widget>
+   <widget class="QMenu" name="menuBooks">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Books</string>
+    </property>
+    <addaction name="actionQuest_Diary"/>
+    <addaction name="actionSoul_Diary"/>
+    <addaction name="actionWorld_Diary"/>
+    <addaction name="actionBook_of_Missions"/>
+    <addaction name="actionBook_of_Battles"/>
+    <addaction name="actionBook_of_Demons"/>
+    <addaction name="actionBook_of_Gaiea"/>
+    <addaction name="actionBook_of_Skins"/>
+    <addaction name="actionBook_of_Wisdom"/>
+    <addaction name="actionBook_of_Colors"/>
+    <addaction name="actionBook_of_Tactics"/>
+    <addaction name="separator"/>
+    <addaction name="actionBook_of_Options"/>
+   </widget>
+   <widget class="QMenu" name="menuGuilds">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Guilds</string>
+    </property>
+    <addaction name="actionVisit_Guild_Hall"/>
+    <addaction name="actionCreate_New_Guild"/>
+    <addaction name="separator"/>
+    <addaction name="actionPick_Guild_Uniform"/>
+    <addaction name="separator"/>
+    <addaction name="actionGuild_Wars"/>
+   </widget>
+   <widget class="QMenu" name="menuWeb">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Web</string>
+    </property>
+    <addaction name="actionWoS_Home_Page"/>
+    <addaction name="actionWoS_Ladders"/>
+    <addaction name="actionWoS_Forum"/>
+    <addaction name="actionNews_and_Bulletins"/>
+    <addaction name="actionSynthetic_Reality_com"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_WEb_Browser"/>
+    <addaction name="actionHide_Web_Browser"/>
+    <addaction name="separator"/>
+    <addaction name="actionDonate_Money_Buy_Stuff"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelp_Contents"/>
+    <addaction name="actionSearch_for_Help_On"/>
+    <addaction name="actionQucikstart_Instructions"/>
+    <addaction name="actionWorld_Developer_Help"/>
+    <addaction name="separator"/>
+    <addaction name="actionHowDoYou_Wizard"/>
+    <addaction name="actionLag_O_Meter"/>
+    <addaction name="actionFunPak_Log"/>
+    <addaction name="separator"/>
+    <addaction name="actionTerms_of_Service"/>
+    <addaction name="actionEnter_Activation_Code"/>
+    <addaction name="actionAbout_Well_of_Souls"/>
+   </widget>
+   <addaction name="menuSomething"/>
+   <addaction name="menuSound"/>
+   <addaction name="menuBooks"/>
+   <addaction name="menuGuilds"/>
+   <addaction name="menuWeb"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionWords">
+   <property name="text">
+    <string>Leave This World</string>
+   </property>
+  </action>
+  <action name="actionSend_Skins_When_Asked">
+   <property name="text">
+    <string>Send skins when asked</string>
+   </property>
+  </action>
+  <action name="actionAsk_for_new_skins">
+   <property name="text">
+    <string>Ask for new skins</string>
+   </property>
+  </action>
+  <action name="actionAvoid_modified_quest_files">
+   <property name="text">
+    <string>Avoid modified quest files</string>
+   </property>
+  </action>
+  <action name="actionCheck_on_line_for_new_worlds">
+   <property name="text">
+    <string>Check on-line for new worlds</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionDisable_sound_effects">
+   <property name="text">
+    <string>Disable Sound Effects</string>
+   </property>
+  </action>
+  <action name="actionDisable_Music">
+   <property name="text">
+    <string>Disable Music</string>
+   </property>
+  </action>
+  <action name="actionDisable_Enviromental_Sounds">
+   <property name="text">
+    <string>Disable Enviromental Sounds</string>
+   </property>
+  </action>
+  <action name="actionDisable_All_Sounds">
+   <property name="text">
+    <string>Disable All Sounds</string>
+   </property>
+  </action>
+  <action name="actionVolume_Controls">
+   <property name="text">
+    <string>Volume Controls</string>
+   </property>
+  </action>
+  <action name="actionQuest_Diary">
+   <property name="text">
+    <string>Quest Diary</string>
+   </property>
+  </action>
+  <action name="actionSoul_Diary">
+   <property name="text">
+    <string>Soul Diary</string>
+   </property>
+  </action>
+  <action name="actionWorld_Diary">
+   <property name="text">
+    <string>World Diary</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Missions">
+   <property name="text">
+    <string>Book of Missions</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Battles">
+   <property name="text">
+    <string>Book of Battles</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Demons">
+   <property name="text">
+    <string>Book of Demons</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Gaiea">
+   <property name="text">
+    <string>Book of Gaiea</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Skins">
+   <property name="text">
+    <string>Book of Skins</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Wisdom">
+   <property name="text">
+    <string>Book of Wisdom</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Colors">
+   <property name="text">
+    <string>Book of Colors</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Tactics">
+   <property name="text">
+    <string>Book of Tactics</string>
+   </property>
+  </action>
+  <action name="actionBook_of_Options">
+   <property name="text">
+    <string>Book of Options</string>
+   </property>
+  </action>
+  <action name="actionVisit_Guild_Hall">
+   <property name="text">
+    <string>Visit Guild Hall</string>
+   </property>
+  </action>
+  <action name="actionCreate_New_Guild">
+   <property name="text">
+    <string>Create New Guild</string>
+   </property>
+  </action>
+  <action name="actionPick_Guild_Uniform">
+   <property name="text">
+    <string>Pick Guild Uniform</string>
+   </property>
+  </action>
+  <action name="actionGuild_Wars">
+   <property name="text">
+    <string>Guild Wars</string>
+   </property>
+  </action>
+  <action name="actionWoS_Home_Page">
+   <property name="text">
+    <string>WoS Home Page</string>
+   </property>
+  </action>
+  <action name="actionWoS_Ladders">
+   <property name="text">
+    <string>WoS Ladders</string>
+   </property>
+  </action>
+  <action name="actionWoS_Forum">
+   <property name="text">
+    <string>WoS Forum</string>
+   </property>
+  </action>
+  <action name="actionNews_and_Bulletins">
+   <property name="text">
+    <string>News and Bulletins</string>
+   </property>
+  </action>
+  <action name="actionSynthetic_Reality_com">
+   <property name="text">
+    <string>Synthetic-Reality.com</string>
+   </property>
+  </action>
+  <action name="actionShow_WEb_Browser">
+   <property name="text">
+    <string>Show Web Browser</string>
+   </property>
+  </action>
+  <action name="actionHide_Web_Browser">
+   <property name="text">
+    <string>Hide Web Browser</string>
+   </property>
+  </action>
+  <action name="actionDonate_Money_Buy_Stuff">
+   <property name="text">
+    <string>Donate Money/Buy Stuff...</string>
+   </property>
+  </action>
+  <action name="actionHelp_Contents">
+   <property name="text">
+    <string>Help Contents</string>
+   </property>
+  </action>
+  <action name="actionSearch_for_Help_On">
+   <property name="text">
+    <string>Search for Help On...</string>
+   </property>
+  </action>
+  <action name="actionQucikstart_Instructions">
+   <property name="text">
+    <string>Qucikstart Instructions</string>
+   </property>
+  </action>
+  <action name="actionWorld_Developer_Help">
+   <property name="text">
+    <string>World Developer Help</string>
+   </property>
+  </action>
+  <action name="actionHowDoYou_Wizard">
+   <property name="text">
+    <string>HowDoYou Wizard</string>
+   </property>
+  </action>
+  <action name="actionLag_O_Meter">
+   <property name="text">
+    <string>Lag-O-Meter</string>
+   </property>
+  </action>
+  <action name="actionFunPak_Log">
+   <property name="text">
+    <string>FunPak Log</string>
+   </property>
+  </action>
+  <action name="actionTerms_of_Service">
+   <property name="text">
+    <string>Terms of Service</string>
+   </property>
+  </action>
+  <action name="actionEnter_Activation_Code">
+   <property name="text">
+    <string>Enter Activation Code...</string>
+   </property>
+  </action>
+  <action name="actionAbout_Well_of_Souls">
+   <property name="text">
+    <string>About Well of Souls...</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
