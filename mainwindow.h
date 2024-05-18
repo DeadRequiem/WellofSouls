@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QGraphicsPixmapItem>
-#include <QGraphicsProxyWidget>
 #include <QPushButton>
+#include <QGraphicsProxyWidget>
+#include "AudioHandler.h"
+#include "Settings.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,11 +24,20 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
+
+private slots:
+    void onButton1Clicked();
+    void onButton2Clicked();
+    void onButton3Clicked();
+    void onButton4Clicked();
+    void onButton5Clicked();
+    void onButton6Clicked();
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsView *view;
     QGraphicsScene *scene;
+    QGraphicsView *view;
     QGraphicsPixmapItem *backgroundItem;
     QGraphicsProxyWidget *buttonProxy1;
     QGraphicsProxyWidget *buttonProxy2;
@@ -35,19 +46,16 @@ private:
     QGraphicsProxyWidget *buttonProxy5;
     QGraphicsProxyWidget *buttonProxy6;
 
+    AudioHandler* audioHandler;
+    Settings* settings;
+    bool closing; // Add this flag
+
     void setupUI();
     void setupButton(QPushButton*& button, const QString& text);
-    void updateButtonPosition();
     void applyCommonStyle(QPushButton* button);
     void connectButtonClickedSignal(QPushButton* button, void (MainWindow::*slot)());
-
-public slots:
-    void onButton1Clicked();
-    void onButton2Clicked();
-    void onButton3Clicked();
-    void onButton4Clicked();
-    void onButton5Clicked();
-    void onButton6Clicked();
+    void updateButtonPosition();
+    void handleExit(); // Add this line
 };
 
 #endif // MAINWINDOW_H
