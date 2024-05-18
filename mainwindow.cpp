@@ -1,8 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "AudioHandler.h"
+#include "Settings.h"
 #include <QDebug>
 #include <QDir>
 #include <QMetaObject>
+#include <QTimer>
+#include <QCloseEvent>
 
 enum ButtonPositions {
     TenPercent = 10,
@@ -20,10 +24,15 @@ enum ButtonPositions {
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , closing(false) // Initialize the flag
 {
     ui->setupUi(this);
     this->setMinimumSize(622, 471);
     setupUI();
+
+    settings = new Settings(this);
+
+    audioHandler = new AudioHandler(settings, this);
 }
 
 MainWindow::~MainWindow()
@@ -169,4 +178,29 @@ void MainWindow::onButton5Clicked()
 void MainWindow::onButton6Clicked()
 {
     qDebug() << "Exit Game Button clicked!";
+    closing = true;
+    handleExit();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (!closing) {
+        qDebug() << "Close event triggered!";
+        closing = true;
+        handleExit();
+        event->ignore(); // Ignore the initial close event to delay closing
+    } else {
+        event->accept(); // Accept the close event if it was triggered programmatically
+    }
+}
+
+void MainWindow::handleExit()
+{
+    // Play the audio file
+    QString audioFilePath = QDir::currentPath() + "/audio/ExitThanks.mp3";
+    qDebug() << "Attempting to play audio file:" << audioFilePath;
+    audioHandler->playAudioFile(audioFilePath);
+
+    // Timer to close the application after a delay
+    QTimer::singleShot(3000, this, &QWidget::close); // Increase delay to 3000 ms to ensure audio plays
 }
