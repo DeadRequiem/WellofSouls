@@ -3,6 +3,7 @@
 #include "AudioHandler.h"
 #include "Settings.h"
 #include "GameSelectorWidget.h"
+#include "ServerSelect.h"
 #include <QDebug>
 #include <QDir>
 #include <QTimer>
@@ -10,6 +11,7 @@
 #include <QPushButton>
 #include <QGraphicsTextItem>
 #include <QVBoxLayout>
+#include <QMessageBox>  // Include QMessageBox for single player placeholder
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -28,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     , settings(nullptr)
     , closing(false)
     , gameSelectorWidget(nullptr)
+    , serverSelectWidget(nullptr)
 {
     ui->setupUi(this);
     this->setMinimumSize(622, 471);
@@ -121,8 +124,13 @@ void MainWindow::setupUI()
     gameSelectorProxy = scene->addWidget(gameSelectorWidget);
     gameSelectorProxy->setVisible(false);  // Hide by default
 
-    // Connect the requestClose signal from GameSelectorWidget to resetUI slot
+    // Connect signals from GameSelectorWidget to the appropriate slots
     connect(gameSelectorWidget, &GameSelectorWidget::requestClose, this, &MainWindow::resetUI);
+    connect(gameSelectorWidget, &GameSelectorWidget::playSinglePlayer, this, &MainWindow::startSinglePlayerGame);
+    connect(gameSelectorWidget, &GameSelectorWidget::playMultiplayer, this, &MainWindow::showServerSelect);
+
+    // Initialize ServerSelect widget
+    serverSelectWidget = new ServerSelect();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -218,6 +226,26 @@ void MainWindow::resetUI()
 
     // Hide GameSelectorWidget
     gameSelectorProxy->setVisible(false);
+}
+
+void MainWindow::showServerSelect()
+{
+    qDebug() << "Navigating to ServerSelect";
+
+    // Hide the GameSelectorWidget
+    gameSelectorProxy->setVisible(false);
+
+    // Display the ServerSelect widget
+    serverSelectWidget->show();
+}
+
+void MainWindow::startSinglePlayerGame()
+{
+    qDebug() << "Starting Single Player Game";
+
+    // Placeholder action for starting a single-player game
+    // Replace with actual single-player game logic
+    QMessageBox::information(this, "Single Player", "Starting single player game...");
 }
 
 void MainWindow::onButton1Clicked()
