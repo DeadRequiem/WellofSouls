@@ -7,7 +7,7 @@ GameSelectorWidget::GameSelectorWidget(QWidget *parent)
 {
     setWindowFlags(Qt::FramelessWindowHint | Qt::Window);
 
-    // Create title bar
+    // Create the title bar
     titleLabel = new QLabel("Where would you like to play today? (tm)");
     closeButton = new QPushButton("X");
     closeButton->setFixedSize(30, 30);
@@ -25,7 +25,7 @@ GameSelectorWidget::GameSelectorWidget(QWidget *parent)
 
     titleBarWidget->setStyleSheet("background-color: #CCCCCC;");
 
-    // Create radio buttons
+    // Create the radio buttons
     soloGameRadioButton = new QRadioButton("Solo Game -- Play alone by yourself (no network required).");
     multiplayerGameRadioButton = new QRadioButton("Multiplayer Game -- Play with others, using a network or modem.");
     multiplayerGameRadioButton->setChecked(true);
@@ -33,7 +33,7 @@ GameSelectorWidget::GameSelectorWidget(QWidget *parent)
     connect(soloGameRadioButton, &QRadioButton::clicked, this, &GameSelectorWidget::soloGameSelected);
     connect(multiplayerGameRadioButton, &QRadioButton::clicked, this, &GameSelectorWidget::multiplayerGameSelected);
 
-    // Create buttons
+    // Create the buttons
     playGameButton = new QPushButton("Play Game");
     cancelButton = new QPushButton("Cancel");
     helpButton = new QPushButton("Help");
@@ -46,6 +46,12 @@ GameSelectorWidget::GameSelectorWidget(QWidget *parent)
     connect(helpButton, &QPushButton::clicked, this, &GameSelectorWidget::showHelp);
     connect(bioButton, &QPushButton::clicked, this, &GameSelectorWidget::showBio);
     connect(configureButton, &QPushButton::clicked, this, &GameSelectorWidget::configureNetwork);
+
+    // Create the image label
+    imageLabel = new QLabel();
+    QPixmap pixmap(":/path/to/your/image.png"); // Update with the correct path to your image
+    imageLabel->setPixmap(pixmap);
+    imageLabel->setFixedSize(pixmap.size());
 
     // Create layouts
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -114,7 +120,11 @@ void GameSelectorWidget::cancel()
 
 void GameSelectorWidget::playGame()
 {
-    qDebug() << "Play Game button clicked!";
+    if (soloGameRadioButton->isChecked()) {
+        emit playSinglePlayer();
+    } else if (multiplayerGameRadioButton->isChecked()) {
+        emit playMultiplayer();
+    }
 }
 
 void GameSelectorWidget::showHelp()

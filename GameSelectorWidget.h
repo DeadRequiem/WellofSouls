@@ -33,6 +33,7 @@ private:
     QPushButton *helpButton;
     QPushButton *bioButton;
     QPushButton *configureButton;
+    QLabel *imageLabel;
     QLabel *titleLabel;
     QPushButton *closeButton;
     QWidget *titleBarWidget;
@@ -41,15 +42,17 @@ private:
 private slots:
     void closeWindow();
     void cancel();
-    void playGame();
-    void showHelp();
-    void showBio();
-    void configureNetwork();
-    void soloGameSelected();
-    void multiplayerGameSelected();
+    void playGame();  // Slot for Play Game button
+    void showHelp();  // Slot for Help button
+    void showBio();   // Slot for Bio button
+    void configureNetwork();  // Slot for Configure Network Options button
+    void soloGameSelected();  // Slot for Solo Game radio button
+    void multiplayerGameSelected();  // Slot for Multiplayer Game radio button
 
 signals:
     void requestClose();  // Signal to reset the UI
+    void playSinglePlayer();  // Signal for playing single player
+    void playMultiplayer();  // Signal for playing multiplayer
 };
 
 #endif // GAMESELECTORWIDGET_H

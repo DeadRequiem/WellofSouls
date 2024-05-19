@@ -12,7 +12,8 @@
 #include <QVBoxLayout>
 #include "AudioHandler.h"
 #include "Settings.h"
-#include "GameSelectorWidget.h"
+#include "GameSelectorWidget.h"  // Include the new widget
+#include "ServerSelect.h"  // Include the ServerSelect widget
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,12 +33,14 @@ protected:
 
 private slots:
     void onButton1Clicked();
-    void onButton2Clicked();
+    void onButton2Clicked();  // Slot for Button 2
     void onButton3Clicked();
     void onButton4Clicked();
     void onButton5Clicked();
     void onButton6Clicked();
-    void resetUI();
+    void resetUI();  // Slot to reset the UI
+    void showServerSelect();  // Slot to show ServerSelect
+    void startSinglePlayerGame();  // Slot to start single player game
 
 private:
     Ui::MainWindow *ui;
@@ -56,16 +59,17 @@ private:
     Settings* settings;
     bool closing;
 
-    GameSelectorWidget* gameSelectorWidget;
+    GameSelectorWidget* gameSelectorWidget;  // Custom widget
+    ServerSelect* serverSelectWidget;  // ServerSelect widget
 
     void setupUI();
     void applyCommonStyle(QPushButton* button);
     void updateButtonPosition();
     void handleExit();
     void connectButtonClickedSignal(QPushButton* button, void (MainWindow::*member)());
-    void hideButtons();
-    void showButtons();
-    void changeBackgroundImage(const QString& imagePath);
+    void hideButtons();  // Helper method to hide buttons 1-6
+    void showButtons();  // Helper method to show buttons 1-6
+    void changeBackgroundImage(const QString& imagePath);  // Helper method to change background image
 };
 
 #endif // MAINWINDOW_H
