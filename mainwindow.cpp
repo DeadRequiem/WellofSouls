@@ -2,12 +2,14 @@
 #include "ui_mainwindow.h"
 #include "AudioHandler.h"
 #include "Settings.h"
+#include "GameSelectorWidget.h"
 #include <QDebug>
 #include <QDir>
 #include <QTimer>
 #include <QCloseEvent>
 #include <QPushButton>
 #include <QGraphicsTextItem>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,18 +23,30 @@ MainWindow::MainWindow(QWidget *parent)
     , buttonProxy4(nullptr)
     , buttonProxy5(nullptr)
     , buttonProxy6(nullptr)
+    , gameSelectorProxy(nullptr)
     , audioHandler(nullptr)
     , settings(nullptr)
     , closing(false)
-    , currentScreen(Screen::First)
+    , gameSelectorWidget(nullptr)
 {
     ui->setupUi(this);
     this->setMinimumSize(622, 471);
-    setupUI();
 
     settings = new Settings(this);
-
     audioHandler = new AudioHandler(settings, this);
+
+    setupUI();
+
+    // Application icon
+    QIcon appIcon(":/ico/ico/ico32.png");
+    qApp->setWindowIcon(appIcon);
+
+    // Window icon
+    QIcon windowIcon(":/ico/ico/ico32.png");
+    window()->setWindowIcon(windowIcon);
+
+    // Window title
+    setWindowTitle("Well of Souls 2");
 }
 
 MainWindow::~MainWindow()
@@ -65,19 +79,18 @@ void MainWindow::setupUI()
     }
 
     // Create and style buttons
-    QPushButton* btnCheckforWorld = nullptr;
-    QPushButton* btnPlayNow = nullptr;
-    QPushButton* btnPurchaseGoldenSoul = nullptr;
-    QPushButton* btnOpenHelpFile = nullptr;
-    QPushButton* btnVisitSynRealPage = nullptr;
-    QPushButton* btnExitGame = nullptr;
-
-    setupButton(btnCheckforWorld, "Check On-Line for New Worlds");
-    setupButton(btnPlayNow, "Play now!");
-    setupButton(btnPurchaseGoldenSoul, "Change Purchase Message");
-    setupButton(btnOpenHelpFile, "Read the attractive help file");
-    setupButton(btnVisitSynRealPage, "Visit synthetic-reality.com");
-    setupButton(btnExitGame, "Depart this realm");
+    QPushButton* btnCheckforWorld = new QPushButton("Check On-Line for New Worlds");
+    applyCommonStyle(btnCheckforWorld);
+    QPushButton* btnPlayNow = new QPushButton("Play now!");
+    applyCommonStyle(btnPlayNow);
+    QPushButton* btnPurchaseGoldenSoul = new QPushButton("Change Purchase Message");
+    applyCommonStyle(btnPurchaseGoldenSoul);
+    QPushButton* btnOpenHelpFile = new QPushButton("Read the attractive help file");
+    applyCommonStyle(btnOpenHelpFile);
+    QPushButton* btnVisitSynRealPage = new QPushButton("Visit synthetic-reality.com");
+    applyCommonStyle(btnVisitSynRealPage);
+    QPushButton* btnExitGame = new QPushButton("Depart this realm");
+    applyCommonStyle(btnExitGame);
 
     // Add buttons to the scene and connect signals
     buttonProxy1 = scene->addWidget(btnCheckforWorld);
@@ -102,19 +115,20 @@ void MainWindow::setupUI()
 
     // Install event filter to capture key press events
     view->installEventFilter(this);
-}
 
-void MainWindow::setupButton(QPushButton*& button, const QString& text)
-{
-    button = new QPushButton(text);
-    applyCommonStyle(button);
+    // Create and add the GameSelectorWidget
+    gameSelectorWidget = new GameSelectorWidget();
+    gameSelectorProxy = scene->addWidget(gameSelectorWidget);
+    gameSelectorProxy->setVisible(false);  // Hide by default
+
+    // Connect the requestClose signal from GameSelectorWidget to resetUI slot
+    connect(gameSelectorWidget, &GameSelectorWidget::requestClose, this, &MainWindow::resetUI);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
 
-    // Resize background to fit the window
     if (backgroundItem) {
         QString imagePath = QDir::currentPath() + "/art/beg.jpg";
         backgroundItem->setPixmap(QPixmap(imagePath).scaled(view->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
@@ -122,7 +136,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         scene->setSceneRect(0, 0, view->width(), view->height()); // Adjust scene size
     }
 
-    // Update button positions relative to the window size
     updateButtonPosition();
 }
 
@@ -161,9 +174,50 @@ void MainWindow::applyCommonStyle(QPushButton* button)
         );
 }
 
-void MainWindow::connectButtonClickedSignal(QPushButton* button, void (MainWindow::*slot)())
+void MainWindow::connectButtonClickedSignal(QPushButton* button, void (MainWindow::*member)())
 {
-    QObject::connect(button, &QPushButton::clicked, this, slot);
+    connect(button, &QPushButton::clicked, this, member);
+}
+
+void MainWindow::hideButtons()
+{
+    if (buttonProxy1) buttonProxy1->setVisible(false);
+    if (buttonProxy2) buttonProxy2->setVisible(false);
+    if (buttonProxy3) buttonProxy3->setVisible(false);
+    if (buttonProxy4) buttonProxy4->setVisible(false);
+    if (buttonProxy5) buttonProxy5->setVisible(false);
+    if (buttonProxy6) buttonProxy6->setVisible(false);
+}
+
+void MainWindow::showButtons()
+{
+    if (buttonProxy1) buttonProxy1->setVisible(true);
+    if (buttonProxy2) buttonProxy2->setVisible(true);
+    if (buttonProxy3) buttonProxy3->setVisible(true);
+    if (buttonProxy4) buttonProxy4->setVisible(true);
+    if (buttonProxy5) buttonProxy5->setVisible(true);
+    if (buttonProxy6) buttonProxy6->setVisible(true);
+}
+
+void MainWindow::changeBackgroundImage(const QString& imagePath)
+{
+    if (backgroundItem) {
+        backgroundItem->setPixmap(QPixmap(imagePath).scaled(view->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        backgroundItem->setPos(0, 0);
+        scene->setSceneRect(0, 0, view->width(), view->height());
+    }
+}
+
+void MainWindow::resetUI()
+{
+    // Show buttons 1-6
+    showButtons();
+
+    // Change background image to beg.jpg
+    changeBackgroundImage(QDir::currentPath() + "/art/beg.jpg");
+
+    // Hide GameSelectorWidget
+    gameSelectorProxy->setVisible(false);
 }
 
 void MainWindow::onButton1Clicked()
@@ -173,34 +227,16 @@ void MainWindow::onButton1Clicked()
 
 void MainWindow::onButton2Clicked()
 {
-    qDebug() << "Play Game Button clicked!";
-
-    // Change background for the second screen
-    QString imagePath = QDir::currentPath() + "/art/where.jpg";
-    QPixmap newBackgroundPixmap(imagePath);
-    if (!newBackgroundPixmap.isNull()) {
-        // Resize the background image to fit the screen
-        backgroundItem->setPixmap(newBackgroundPixmap.scaled(view->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    } else {
-        qWarning() << "Failed to load background pixmap from path:" << imagePath;
-    }
-
-    // Hide buttons
+    // Hide buttons 1-6
     hideButtons();
 
-    // Add a text field for the second screen
-    QGraphicsTextItem *textField = new QGraphicsTextItem("Where Do You Want To Play?");
-    QFont font;
-    font.setPointSize(34); // Change font size to 34
-    textField->setFont(font);
-    // Change text color to #FFFF00 using integer values
-    textField->setDefaultTextColor(QColor(255, 255, 0));
-    // Position the text field to match the "Check On-Line for New Worlds" button on the first screen
-    textField->setPos(buttonProxy1->pos().x(), buttonProxy1->pos().y());
-    scene->addItem(textField);
+    // Change background image to where.jpg
+    changeBackgroundImage(QDir::currentPath() + "/art/where.jpg");
 
-    // Switch to the second screen
-    currentScreen = Screen::Second;
+    // Show GameSelectorWidget and center it
+    gameSelectorProxy->setVisible(true);
+    gameSelectorProxy->setPos((view->width() - gameSelectorProxy->size().width()) / 2,
+                              (view->height() - gameSelectorProxy->size().height()) / 2);
 }
 
 void MainWindow::onButton3Clicked()
@@ -247,83 +283,3 @@ void MainWindow::handleExit()
     // Timer to close the application after a delay
     QTimer::singleShot(100, this, &QWidget::close); // Increase delay to 3000 ms to ensure audio plays
 }
-
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == view && event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if (currentScreen == Screen::Second && keyEvent->key() == Qt::Key_Escape) {
-            qDebug() << "Escape key pressed on the second screen!";
-            // Switch back to the first screen
-            switchToFirstScreen();
-            return true; // Consume the event
-        }
-    }
-    // Call base class implementation to handle other events
-    return QMainWindow::eventFilter(obj, event);
-}
-
-void MainWindow::hideButtons()
-{
-    if (buttonProxy1)
-        buttonProxy1->setVisible(false);
-
-    if (buttonProxy2)
-        buttonProxy2->setVisible(false);
-
-    if (buttonProxy3)
-        buttonProxy3->setVisible(false);
-
-    if (buttonProxy4)
-        buttonProxy4->setVisible(false);
-
-    if (buttonProxy5)
-        buttonProxy5->setVisible(false);
-
-    if (buttonProxy6)
-        buttonProxy6->setVisible(false);
-}
-
-void MainWindow::switchToFirstScreen()
-{
-    // Restore initial background for the first screen
-    QString imagePath = QDir::currentPath() + "/art/beg.jpg";
-    QPixmap initialBackgroundPixmap(imagePath);
-    if (!initialBackgroundPixmap.isNull()) {
-        backgroundItem->setPixmap(initialBackgroundPixmap.scaled(view->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    } else {
-        qWarning() << "Failed to load background pixmap from path:" << imagePath;
-    }
-
-    // Remove the text field for the second screen
-    QList<QGraphicsItem*> items = scene->items();
-    for (QGraphicsItem* item : items) {
-        if (item->type() == QGraphicsTextItem::Type) {
-            scene->removeItem(item);
-            delete item;
-        }
-    }
-
-    // Show buttons
-    if (buttonProxy1)
-        buttonProxy1->setVisible(true);
-
-    if (buttonProxy2)
-        buttonProxy2->setVisible(true);
-
-    if (buttonProxy3)
-        buttonProxy3->setVisible(true);
-
-    if (buttonProxy4)
-        buttonProxy4->setVisible(true);
-
-    if (buttonProxy5)
-        buttonProxy5->setVisible(true);
-
-    if (buttonProxy6)
-        buttonProxy6->setVisible(true);
-
-    // Switch to the first screen
-    currentScreen = Screen::First;
-}
-
