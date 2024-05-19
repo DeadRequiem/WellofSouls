@@ -4,26 +4,24 @@
 #include "Settings.h"
 #include <QDebug>
 #include <QDir>
-#include <QMetaObject>
 #include <QTimer>
 #include <QCloseEvent>
-
-enum ButtonPositions {
-    TenPercent = 10,
-    FifteenPercent = 15,
-    TwentyPercent = 20,
-    TwentyFivePercent = 25,
-    ThirtyPercent = 30,
-    ThirtyFivePercent = 35,
-    FourtyPercent = 40,
-    FiftyPercent = 50,
-    SixtyPercent = 60,
-    SeventyPercent = 70
-};
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , scene(nullptr)
+    , view(nullptr)
+    , backgroundItem(nullptr)
+    , buttonProxy1(nullptr)
+    , buttonProxy2(nullptr)
+    , buttonProxy3(nullptr)
+    , buttonProxy4(nullptr)
+    , buttonProxy5(nullptr)
+    , buttonProxy6(nullptr)
+    , audioHandler(nullptr)
+    , settings(nullptr)
     , closing(false) // Initialize the flag
 {
     ui->setupUi(this);
@@ -38,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete audioHandler;
+    delete settings;
 }
 
 void MainWindow::setupUI()
@@ -63,38 +63,38 @@ void MainWindow::setupUI()
     }
 
     // Create and style buttons
-    QPushButton* CheckforWorldButton = nullptr;
-    QPushButton* PlayGameButton = nullptr;
-    QPushButton* PurchaseGoldenSoulButton = nullptr;
-    QPushButton* OpenHelpFileButton = nullptr;
-    QPushButton* VisitSynRealPageButton = nullptr;
-    QPushButton* ExitGameButton = nullptr;
+    QPushButton* btnCheckforWorld = nullptr;
+    QPushButton* btnPlayNow = nullptr;
+    QPushButton* btnPurchaseGoldenSoul = nullptr;
+    QPushButton* btnOpenHelpFile = nullptr;
+    QPushButton* btnVisitSynRealPage = nullptr;
+    QPushButton* btnExitGame = nullptr;
 
-    setupButton(CheckforWorldButton, "Check On-Line for New Worlds");
-    setupButton(PlayGameButton, "Play now!");
-    setupButton(PurchaseGoldenSoulButton, "Change Purchase Message");
-    setupButton(OpenHelpFileButton, "Read the attractive help file");
-    setupButton(VisitSynRealPageButton, "Visit synthetic-reality.com");
-    setupButton(ExitGameButton, "Depart this realm");
+    setupButton(btnCheckforWorld, "Check On-Line for New Worlds");
+    setupButton(btnPlayNow, "Play now!");
+    setupButton(btnPurchaseGoldenSoul, "Change Purchase Message");
+    setupButton(btnOpenHelpFile, "Read the attractive help file");
+    setupButton(btnVisitSynRealPage, "Visit synthetic-reality.com");
+    setupButton(btnExitGame, "Depart this realm");
 
     // Add buttons to the scene and connect signals
-    buttonProxy1 = scene->addWidget(CheckforWorldButton);
-    connectButtonClickedSignal(CheckforWorldButton, &MainWindow::onButton1Clicked);
+    buttonProxy1 = scene->addWidget(btnCheckforWorld);
+    connectButtonClickedSignal(btnCheckforWorld, &MainWindow::onButton1Clicked);
 
-    buttonProxy2 = scene->addWidget(PlayGameButton);
-    connectButtonClickedSignal(PlayGameButton, &MainWindow::onButton2Clicked);
+    buttonProxy2 = scene->addWidget(btnPlayNow);
+    connectButtonClickedSignal(btnPlayNow, &MainWindow::onButton2Clicked);
 
-    buttonProxy3 = scene->addWidget(PurchaseGoldenSoulButton);
-    connectButtonClickedSignal(PurchaseGoldenSoulButton, &MainWindow::onButton3Clicked);
+    buttonProxy3 = scene->addWidget(btnPurchaseGoldenSoul);
+    connectButtonClickedSignal(btnPurchaseGoldenSoul, &MainWindow::onButton3Clicked);
 
-    buttonProxy4 = scene->addWidget(OpenHelpFileButton);
-    connectButtonClickedSignal(OpenHelpFileButton, &MainWindow::onButton4Clicked);
+    buttonProxy4 = scene->addWidget(btnOpenHelpFile);
+    connectButtonClickedSignal(btnOpenHelpFile, &MainWindow::onButton4Clicked);
 
-    buttonProxy5 = scene->addWidget(VisitSynRealPageButton);
-    connectButtonClickedSignal(VisitSynRealPageButton, &MainWindow::onButton5Clicked);
+    buttonProxy5 = scene->addWidget(btnVisitSynRealPage);
+    connectButtonClickedSignal(btnVisitSynRealPage, &MainWindow::onButton5Clicked);
 
-    buttonProxy6 = scene->addWidget(ExitGameButton);
-    connectButtonClickedSignal(ExitGameButton, &MainWindow::onButton6Clicked);
+    buttonProxy6 = scene->addWidget(btnExitGame);
+    connectButtonClickedSignal(btnExitGame, &MainWindow::onButton6Clicked);
 
     updateButtonPosition(); // Initial positioning of buttons
 }
@@ -126,12 +126,23 @@ void MainWindow::updateButtonPosition()
     int windowWidth = view->width();
     int windowHeight = view->height();
 
-    buttonProxy1->setPos(TenPercent * windowWidth / 100, TwentyPercent * windowHeight / 100);
-    buttonProxy2->setPos(FifteenPercent * windowWidth / 100, ThirtyPercent * windowHeight / 100);
-    buttonProxy3->setPos(TwentyPercent * windowWidth / 100, FourtyPercent * windowHeight / 100);
-    buttonProxy4->setPos(TwentyFivePercent * windowWidth / 100, FiftyPercent * windowHeight / 100);
-    buttonProxy5->setPos(ThirtyPercent * windowWidth / 100, SixtyPercent * windowHeight / 100);
-    buttonProxy6->setPos(ThirtyFivePercent * windowWidth / 100, SeventyPercent * windowHeight / 100);
+    if (buttonProxy1)
+        buttonProxy1->setPos(0.1 * windowWidth, 0.2 * windowHeight);
+
+    if (buttonProxy2)
+        buttonProxy2->setPos(0.15 * windowWidth, 0.3 * windowHeight);
+
+    if (buttonProxy3)
+        buttonProxy3->setPos(0.2 * windowWidth, 0.4 * windowHeight);
+
+    if (buttonProxy4)
+        buttonProxy4->setPos(0.25 * windowWidth, 0.5 * windowHeight);
+
+    if (buttonProxy5)
+        buttonProxy5->setPos(0.3 * windowWidth, 0.6 * windowHeight);
+
+    if (buttonProxy6)
+        buttonProxy6->setPos(0.35 * windowWidth, 0.7 * windowHeight);
 }
 
 void MainWindow::applyCommonStyle(QPushButton* button)
@@ -197,10 +208,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::handleExit()
 {
     // Play the audio file
-    QString audioFilePath = QDir::currentPath() + "/audio/ExitThanks.mp3";
-    qDebug() << "Attempting to play audio file:" << audioFilePath;
-    audioHandler->playAudioFile(audioFilePath);
+    //QString audioFilePath = QDir::currentPath() + "/audio/ExitThanks.mp3";
+    //qDebug() << "Attempting to play audio file:" << audioFilePath;
+    //audioHandler->playAudioFile(audioFilePath);
 
     // Timer to close the application after a delay
-    QTimer::singleShot(3000, this, &QWidget::close); // Increase delay to 3000 ms to ensure audio plays
+    QTimer::singleShot(100, this, &QWidget::close); // Increase delay to 3000 ms to ensure audio plays
 }
