@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QCloseEvent>
 #include <QPushButton>
+#include <QGraphicsTextItem>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     , buttonProxy6(nullptr)
     , audioHandler(nullptr)
     , settings(nullptr)
-    , closing(false) // Initialize the flag
+    , closing(false)
+    , currentScreen(Screen::First)
 {
     ui->setupUi(this);
     this->setMinimumSize(622, 471);
@@ -52,7 +54,7 @@ void MainWindow::setupUI()
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setFrameStyle(QFrame::NoFrame);
 
-    // Set background pixmap
+    // Set initial background pixmap
     QString imagePath = QDir::currentPath() + "/art/beg.jpg";
     QPixmap backgroundPixmap(imagePath);
     if (!backgroundPixmap.isNull()) {
@@ -97,6 +99,9 @@ void MainWindow::setupUI()
     connectButtonClickedSignal(btnExitGame, &MainWindow::onButton6Clicked);
 
     updateButtonPosition(); // Initial positioning of buttons
+
+    // Install event filter to capture key press events
+    view->installEventFilter(this);
 }
 
 void MainWindow::setupButton(QPushButton*& button, const QString& text)
@@ -169,6 +174,33 @@ void MainWindow::onButton1Clicked()
 void MainWindow::onButton2Clicked()
 {
     qDebug() << "Play Game Button clicked!";
+
+    // Change background for the second screen
+    QString imagePath = QDir::currentPath() + "/art/where.jpg";
+    QPixmap newBackgroundPixmap(imagePath);
+    if (!newBackgroundPixmap.isNull()) {
+        // Resize the background image to fit the screen
+        backgroundItem->setPixmap(newBackgroundPixmap.scaled(view->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    } else {
+        qWarning() << "Failed to load background pixmap from path:" << imagePath;
+    }
+
+    // Hide buttons
+    hideButtons();
+
+    // Add a text field for the second screen
+    QGraphicsTextItem *textField = new QGraphicsTextItem("Where Do You Want To Play?");
+    QFont font;
+    font.setPointSize(34); // Change font size to 34
+    textField->setFont(font);
+    // Change text color to #FFFF00 using integer values
+    textField->setDefaultTextColor(QColor(255, 255, 0));
+    // Position the text field to match the "Check On-Line for New Worlds" button on the first screen
+    textField->setPos(buttonProxy1->pos().x(), buttonProxy1->pos().y());
+    scene->addItem(textField);
+
+    // Switch to the second screen
+    currentScreen = Screen::Second;
 }
 
 void MainWindow::onButton3Clicked()
@@ -215,3 +247,83 @@ void MainWindow::handleExit()
     // Timer to close the application after a delay
     QTimer::singleShot(100, this, &QWidget::close); // Increase delay to 3000 ms to ensure audio plays
 }
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == view && event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (currentScreen == Screen::Second && keyEvent->key() == Qt::Key_Escape) {
+            qDebug() << "Escape key pressed on the second screen!";
+            // Switch back to the first screen
+            switchToFirstScreen();
+            return true; // Consume the event
+        }
+    }
+    // Call base class implementation to handle other events
+    return QMainWindow::eventFilter(obj, event);
+}
+
+void MainWindow::hideButtons()
+{
+    if (buttonProxy1)
+        buttonProxy1->setVisible(false);
+
+    if (buttonProxy2)
+        buttonProxy2->setVisible(false);
+
+    if (buttonProxy3)
+        buttonProxy3->setVisible(false);
+
+    if (buttonProxy4)
+        buttonProxy4->setVisible(false);
+
+    if (buttonProxy5)
+        buttonProxy5->setVisible(false);
+
+    if (buttonProxy6)
+        buttonProxy6->setVisible(false);
+}
+
+void MainWindow::switchToFirstScreen()
+{
+    // Restore initial background for the first screen
+    QString imagePath = QDir::currentPath() + "/art/beg.jpg";
+    QPixmap initialBackgroundPixmap(imagePath);
+    if (!initialBackgroundPixmap.isNull()) {
+        backgroundItem->setPixmap(initialBackgroundPixmap.scaled(view->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    } else {
+        qWarning() << "Failed to load background pixmap from path:" << imagePath;
+    }
+
+    // Remove the text field for the second screen
+    QList<QGraphicsItem*> items = scene->items();
+    for (QGraphicsItem* item : items) {
+        if (item->type() == QGraphicsTextItem::Type) {
+            scene->removeItem(item);
+            delete item;
+        }
+    }
+
+    // Show buttons
+    if (buttonProxy1)
+        buttonProxy1->setVisible(true);
+
+    if (buttonProxy2)
+        buttonProxy2->setVisible(true);
+
+    if (buttonProxy3)
+        buttonProxy3->setVisible(true);
+
+    if (buttonProxy4)
+        buttonProxy4->setVisible(true);
+
+    if (buttonProxy5)
+        buttonProxy5->setVisible(true);
+
+    if (buttonProxy6)
+        buttonProxy6->setVisible(true);
+
+    // Switch to the first screen
+    currentScreen = Screen::First;
+}
+
