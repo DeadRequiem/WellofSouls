@@ -7,8 +7,12 @@
 #include <QGraphicsPixmapItem>
 #include <QPushButton>
 #include <QGraphicsProxyWidget>
+#include <QStackedWidget>
+#include <QFrame>
+#include <QVBoxLayout>
 #include "AudioHandler.h"
 #include "Settings.h"
+#include "GameSelectorWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
@@ -33,6 +37,7 @@ private slots:
     void onButton4Clicked();
     void onButton5Clicked();
     void onButton6Clicked();
+    void resetUI();
 
 private:
     Ui::MainWindow *ui;
@@ -45,17 +50,22 @@ private:
     QGraphicsProxyWidget *buttonProxy4;
     QGraphicsProxyWidget *buttonProxy5;
     QGraphicsProxyWidget *buttonProxy6;
+    QGraphicsProxyWidget *gameSelectorProxy;
 
     AudioHandler* audioHandler;
     Settings* settings;
-    bool closing; // Add this flag
+    bool closing;
+
+    GameSelectorWidget* gameSelectorWidget;
 
     void setupUI();
-    void setupButton(QPushButton*& button, const QString& text);
     void applyCommonStyle(QPushButton* button);
-    void connectButtonClickedSignal(QPushButton* button, void (MainWindow::*slot)());
     void updateButtonPosition();
-    void handleExit(); // Add this line
+    void handleExit();
+    void connectButtonClickedSignal(QPushButton* button, void (MainWindow::*member)());
+    void hideButtons();
+    void showButtons();
+    void changeBackgroundImage(const QString& imagePath);
 };
 
 #endif // MAINWINDOW_H
