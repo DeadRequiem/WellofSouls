@@ -10,14 +10,17 @@
 #include <QStackedWidget>
 #include <QFrame>
 #include <QVBoxLayout>
-#include "AudioHandler.h"
-#include "Settings.h"
-#include "GameSelectorWidget.h"  // Include the new widget
-#include "ServerSelect.h"  // Include the ServerSelect widget
+
+class AudioHandler;
+class Settings;
+class GameSelectorWidget;
+class ServerSelect;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+namespace WellOfSouls {
 
 class MainWindow : public QMainWindow
 {
@@ -33,14 +36,14 @@ protected:
 
 private slots:
     void onButton1Clicked();
-    void onButton2Clicked();  // Slot for Button 2
+    void onButton2Clicked();
     void onButton3Clicked();
     void onButton4Clicked();
     void onButton5Clicked();
     void onButton6Clicked();
-    void resetUI();  // Slot to reset the UI
-    void showServerSelect();  // Slot to show ServerSelect
-    void startSinglePlayerGame();  // Slot to start single player game
+    void resetUI();
+    void showServerSelect();
+    void startSinglePlayerGame();
 
 private:
     Ui::MainWindow *ui;
@@ -54,22 +57,25 @@ private:
     QGraphicsProxyWidget *buttonProxy5;
     QGraphicsProxyWidget *buttonProxy6;
     QGraphicsProxyWidget *gameSelectorProxy;
+    QGraphicsProxyWidget *serverSelectProxy;
 
     AudioHandler* audioHandler;
     Settings* settings;
     bool closing;
 
-    GameSelectorWidget* gameSelectorWidget;  // Custom widget
-    ServerSelect* serverSelectWidget;  // ServerSelect widget
+    GameSelectorWidget* gameSelectorWidget;
+    ServerSelect* serverSelectWidget;
 
     void setupUI();
     void applyCommonStyle(QPushButton* button);
     void updateButtonPosition();
     void handleExit();
     void connectButtonClickedSignal(QPushButton* button, void (MainWindow::*member)());
-    void hideButtons();  // Helper method to hide buttons 1-6
-    void showButtons();  // Helper method to show buttons 1-6
-    void changeBackgroundImage(const QString& imagePath);  // Helper method to change background image
+    void hideButtons();
+    void showButtons();
+    void changeBackgroundImage(const QString& imagePath);
 };
+
+} // namespace WellOfSouls
 
 #endif // MAINWINDOW_H
